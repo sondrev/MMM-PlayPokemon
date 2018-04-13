@@ -1,0 +1,52 @@
+/*
+ *
+ * MMM-PlayPokemon
+ *
+ * Sondre Nitter Vestad
+ * MIT Licensed.
+ *
+ * Custom here your css module
+ *
+ */
+ .moduleContainer {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  width: 480px; 
+ }
+
+.infopane {
+  flex-direction: row;
+display: flex;
+justify-content: flex-end;
+}
+
+.infoText {
+display: inline;
+	color: black;
+font-size: 20px;
+}
+
+
+ .imgHeader {
+          max-width: 100%;
+    max-height: 100%;
+	width:100%;
+	height:auto;
+ }
+
+ .imgEmulator {
+          max-width: 100%;
+    max-height: 100%;
+	width:100%;
+	height:auto;
+ }
+
+.infobox {
+
+}
+
+ .qr {
+          max-width: 100%;
+    max-height: 100%;
+ }

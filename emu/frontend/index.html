@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src='/socket.io/socket.io.js'></script>
+<script>
+    var socket = io();
+
+    socket.on('welcome', function(data) {
+        socket.emit('i am client', {data: 'foo!', id: data.id});
+    });
+    socket.on('error', console.error.bind(console));
+    socket.on('message', console.log.bind(console));
+    function sendButton(btn) {
+        socket.emit('button', { btn: btn});
+    }
+
+</script>
+<style>
+html { height: 100%; }
+
+body {  
+    min-height: 100%;
+    display: flex;
+    margin: 0;
+    padding: 0; 
+}
+
+
+.flex-container {
+  display: flex;
+  background-color: DodgerBlue;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.buttons {
+align-items: center;
+ justify-content: center;
+  display: flex;
+}
+
+.buttons.dir {
+  flex-direction: column;
+  flex-grow: 20;
+  width: 40%;
+}
+
+.buttonrow {
+
+ flex-direction: row;
+}
+
+
+.buttons.menu {
+  flex-direction: column;
+  width:200px;
+  width: 20%;
+}
+
+.buttons.action {
+  flex-direction: row;
+  width: 40%;
+}
+
+.actionbutton {
+  margin: 10px;
+  padding: 20px;
+  font-size: 30px;
+  height: 100px;
+  width: 100px;
+}
+
+
+.directionbutton {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 30px;
+    margin-left: 30px;
+  padding: 20px;
+  font-size: 30px;
+  
+    height: 100px;
+  width: 100px;
+
+}
+
+.menubutton {
+padding: 10px;
+margin: 5px;
+font-size: 20px;
+  height: 50px;
+  width: 100px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="flex-container">
+<div class="buttons dir">
+ <div class="buttonrow"><button class="directionbutton" onclick="sendButton('Up');">Up</button></div>
+	<div class="buttonrow"><button class="directionbutton" onclick="sendButton('Left');">Left</button><button class="directionbutton" onclick="sendButton('Right');">Rigt</button></div>
+    <div class="buttonrow"><button class="directionbutton" onclick="sendButton('Down');">Down</button></div>
+    
+  </div>
+  <div class="buttons menu">
+  <button class="menubutton" onclick="sendButton('Enter');">Start</button>
+  <button class="menubutton">Select</button> 
+  </div>
+   <div class="buttons action">
+  <button class="actionbutton" onclick="sendButton('x');">a</button>
+  <button class="actionbutton" onclick="sendButton('z');">b</button> 
+  </div>
+</div>
