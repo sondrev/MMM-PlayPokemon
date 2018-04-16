@@ -9,8 +9,19 @@ var curClicked = null;
 
 
 
-var clickButton = function(btn) {
-    
+var validateButton = function(btn) {
+        console.log('User hit '+btn);
+	if (btn=='Left') inputQ.push(btn);
+	if (btn=='Right') inputQ.push(btn);
+	if (btn=='Up') inputQ.push(btn);
+	if (btn=='Down') inputQ.push(btn);
+
+	if (btn=='x') inputQ.push(btn);
+	if (btn=='z') inputQ.push(btn);
+
+	if (btn=='Return') inputQ.push(btn);
+	if (btn=='BackSpace') inputQ.push(btn);
+	
 }
 
 setInterval(function(){
@@ -37,8 +48,7 @@ io.on('connection', function(socket) {
 
     socket.on('i am client', console.log);
     socket.on('button', function(data) {
-        console.log('User hit '+data.btn);
-	inputQ.push(data.btn);
+	validateButton(data.btn)
     });
 
 });
