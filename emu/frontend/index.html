@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 <script src='/socket.io/socket.io.js'></script>
 <script>
     var socket = io();
@@ -13,7 +14,20 @@
     function sendButton(btn) {
         socket.emit('button', { btn: btn});
     }
-
+    // Workarounds for iOS > v9 preventing disabling of zooming
+    // First we disable pinching and zooming
+    document.addEventListener('touchmove', function (event) {
+      if (event.scale !== 1) { event.preventDefault(); }
+    }, false);
+    // Then we disable double tap to zoom
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+        var now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
 </script>
 <style>
 html { height: 100%; }
