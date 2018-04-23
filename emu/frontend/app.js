@@ -6,8 +6,9 @@ var index = fs.readFileSync(__dirname + '/index.html');
 
 var inputQ = [];
 var curClicked = null;
-
-
+var lastConsumed=0;
+var minimumWaitTime=200;
+var holdTime=200;
 
 var validateButton = function(btn) {
         console.log('User hit '+btn);
@@ -21,20 +22,28 @@ var validateButton = function(btn) {
 
 	if (btn=='Return') inputQ.push(btn);
 	if (btn=='BackSpace') inputQ.push(btn);
+	consumeNextInput();
 	
 }
 
-setInterval(function(){
-  if (curClicked!=null) {
-    exec('export DISPLAY=:99; xdotool keyup '+curClicked);
-    curClicked = null;
-  } else if (inputQ.length){
-    curClicked = inputQ[0];
-    console.log('consuming '+curClicked);
-    exec('export DISPLAY=:99; xdotool keydown '+curClicked);    
-    inputQ.shift();
+var consumeNextInput = function() {
+  var elapsedTime = new Date().getTime() - lastConsumed;
+  if (elapsedTime>=minimumWaitTime) {
+    if (inputQ.length) {
+      lastConsumed=new Date().getTime();
+      exec('export DISPLAY=:99; xdotool key --delay '+holdTime+' '+inputQ[0]+' &');
+      inputQ.shift();
+    }
   }
-}, 100);
+}
+
+setInterval(function(){
+  exec('export DISPLAY=:99; xdotool key --delay 200 Ctrl+s &');
+},30*60*1000);
+
+setInterval(function(){
+  consumeNextInput();
+}, minimumWaitTime);
 
 var app = http.createServer(function(req, res) {
     res.writeHead(200, {'Content-Type': 'text/html'});
